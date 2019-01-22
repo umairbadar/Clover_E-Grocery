@@ -48,6 +48,7 @@ public class Home extends Fragment
     ViewFlipper viewflip;
     View view;
     CardView cardView;
+
     //Non Clover Products
     private RecyclerView myrecyclerview2;
     private RecyclerView.Adapter adapter;
