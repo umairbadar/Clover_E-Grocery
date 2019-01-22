@@ -145,7 +145,10 @@ public class Home extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewflip = view.findViewById(R.id.viewflip);
-        int images[] ={R.drawable.spicetwo,R.drawable.pulsestwo,R.drawable.oiltwo,R.drawable.oilthree,R.drawable.spiceone,R.drawable.pulses1,R.drawable.spice3};
+        int images[] ={R.drawable.cloverpic1,R.drawable.cloverpic2,R.drawable.cloverpic3,
+                R.drawable.cloverpic4,R.drawable.cloverpic5,R.drawable.cloverpic6,
+                R.drawable.cloverpic7,R.drawable.cloverpic8,R.drawable.cloverpic9,
+                R.drawable.cloverpic10};
         for(int image:images)
         {
             flipimage(image);
