@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<FrameLayout-->
+<!--android:layout_width="match_parent"-->
+<!--android:background="#ffffff"-->
+<!--android:layout_height="250dp">-->
+<!--<com.google.android.gms.maps.MapView-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="match_parent"-->
+       <!--android:id="@+id/maps" />-->
+<!--</FrameLayout>-->
+<LinearLayout
+    android:id="@+id/addressxml"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button
+        android:id="@+id/addadd"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Address:"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/roundedittext"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+     android:id="@+id/relativev">
+       id:layout_marginTop="30dp"
+            />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".Checkout">
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/adresshome"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delivery Address"
+        />
+    <TextView
+        android:layout_below="@id/adresshome"
+        android:id="@+id/adresshome1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/roundredbutton"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableRight="@drawable/edit"
+        android:layout_height="100dp"
+        />
+    <TextView
+        android:layout_below="@id/adresshome1"
+        android:id="@+id/delivery"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Delivery Date and Time"
+        android:textSize="20dp"
+        />
+    <TextView
+        android:layout_below="@id/delivery"
+        android:id="@+id/delivery1"
+        android:background="@drawable/roundredbutton"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="100dp"
+        />
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/buttonprocedecheck2"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:background="#FF6347"
+        android:text="Proceed to Payment"
+        android:layout_height="wrap_content"
+        />
+</RelativeLayout>

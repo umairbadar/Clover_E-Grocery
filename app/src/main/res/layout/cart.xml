@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <ListView
+        android:layout_marginTop="7dp"
+        android:id="@+id/listcart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:dividerHeight="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/listcart"
+        android:id="@+id/textviewamount"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="left|center"
+        android:text="   Sub Total                                          Rs"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        />
+    <TextView
+        android:layout_below="@+id/textviewamount"
+        android:id="@+id/textviewamount2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="left|center"
+        android:text="   Delivery charges                              Rs   "
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        />
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/buttonprocedecheck"
+        android:layout_width="match_parent"
+        android:gravity="left|center"
+        android:textColor="#fff"
+        android:background="#FF6347"
+        android:text="    Proceed to Checkout                          Rs"
+        android:layout_height="wrap_content"
+        />
+</RelativeLayout>
