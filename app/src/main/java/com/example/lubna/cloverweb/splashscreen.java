@@ -1,62 +1,63 @@
 package com.example.lubna.cloverweb;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-public class splashscreen extends AppCompatActivity
+import android.widget.LinearLayout;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.viksaa.sssplash.lib.activity.AwesomeSplash;
+import com.viksaa.sssplash.lib.cnst.Flags;
+import com.viksaa.sssplash.lib.model.ConfigSplash;
+
+public class splashscreen extends AwesomeSplash
 {
-    public void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        Window window = getWindow();
-        window.setFormat(PixelFormat.RGBA_8888);
-       StartAnimations();
-    }
-    Thread splashTread;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public void initSplash(ConfigSplash configSplash)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splashscreen);
+        configSplash.setBackgroundColor(R.color.back1);//any color you want form colors.xml
+        configSplash.setAnimCircularRevealDuration(2000); //int ms
+        configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
+        configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
+        //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
+        //Customize Logo
+        configSplash.setLogoSplash(R.drawable.clover_logo_final); //or any other drawable
+        configSplash.setAnimLogoSplashDuration(2000);
+        //int ms
+        configSplash.setAnimLogoSplashTechnique(Techniques.Bounce); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
+        //Customize Path
+        //configSplash.setPathSplash(SyncStateContract.Constants.); set path String
+        configSplash.setOriginalHeight(500); //in relation to your svg (path) resource
+        configSplash.setOriginalWidth(500); //in relation to your svg (path) resource
+        configSplash.setAnimPathStrokeDrawingDuration(3000);
+        configSplash.setPathSplashStrokeSize(3); //I advise value be <5
+        configSplash.setPathSplashStrokeColor(R.color.colorAccent); //any color you want form colors.xml
+        configSplash.setAnimPathFillingDuration(2500);
+        configSplash.setPathSplashFillColor(R.color.clovergreen); //path object filling color
+        //Customize Title
+        configSplash.setTitleSplash("E-Grocery");
+        //change your app name here
+        configSplash.setTitleTextColor(R.color.clovergreen);
+        configSplash.setTitleTextSize(50f);
+        //float value
+        configSplash.setAnimTitleDuration(1500);
+        configSplash.setAnimTitleTechnique(Techniques.FlipInX);
     }
-    private void StartAnimations()
-    {
-//        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
-//        anim.reset();
-//        LinearLayout l= findViewById(R.id.lin_lay);
-//        l.clearAnimation();
-//        l.startAnimation(anim);
-//        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
-//        anim.reset();
-        ImageView iv =  findViewById(R.id.splash);
-//        iv.clearAnimation();
-//        iv.startAnimation(anim);
-        splashTread = new Thread()
-        {
-            @Override
-            public void run()
-            {
-                try
-                {
-                    int waited = 0;
-                    while (waited < 3500)
-                    {
-                        waited += 200;
-                    }
-                    Intent intent = new Intent(splashscreen.this, egrocery.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                    splashscreen.this.finish();
-//
-                }
-                finally
-                {
-                    splashscreen.this.finish();
-                }
-            }
-        };
-        splashTread.start();
-  }
+    @Override
+    public void animationsFinished() {
+
+            Intent i = new Intent(getApplicationContext(),egrocery.class);
+            startActivity(i);
+            finish();
+
+    }
 }

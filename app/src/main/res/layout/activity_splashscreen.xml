@@ -18,7 +18,7 @@
             android:layout_width="320dp"
             android:layout_marginLeft="10dp"
             android:layout_height="140dp"
-            android:background="@drawable/glocery"
+            android:background="@drawable/clover_logo_final"
         />
     </LinearLayout>
 </LinearLayout>

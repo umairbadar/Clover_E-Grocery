@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.lubna.cloverweb">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,7 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -17,9 +19,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:theme"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,18 +35,10 @@
         <activity
             android:name=".egrocery"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Loginpage" />
-        <activity android:name=".SIgnup" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAn_AtFHtyGma16_pbhv4gZVPaoUe08hQE" />
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC1B9NEEtBS8C89advaXSY3ODr1mBIxuJs"/>
 
-        <activity android:name=".Checkout" />
-        <activity android:name=".PlaceOrder" />
-        <activity android:name=".Carddetails" />
-        <activity android:name=".Ebatwa" />
-        <activity android:name=".Editaddress"></activity>
     </application>
 
 </manifest>

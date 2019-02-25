@@ -1,51 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container1234"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    >
-    <ListView
-        android:layout_marginTop="7dp"
-        android:id="@+id/listcart"
+    android:padding="8dp">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout1">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:dividerHeight="7dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        />
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/listcart"
-        android:id="@+id/textviewamount"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="left|center"
-        android:text="   Sub Total                                          Rs"
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        />
-    <TextView
-        android:layout_below="@+id/textviewamount"
-        android:id="@+id/textviewamount2"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="left|center"
-        android:text="   Delivery charges                              Rs   "
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        />
-    <Button
         android:layout_alignParentBottom="true"
-        android:id="@+id/buttonprocedecheck"
-        android:layout_width="match_parent"
-        android:gravity="left|center"
-        android:textColor="#fff"
-        android:background="#FF6347"
-        android:text="    Proceed to Checkout                          Rs"
-        android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="8dp"
+        android:background="@color/blue"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_total_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/txt_gst"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:padding="10dp"
+            android:text="Rs. 0"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_gst"
+            android:layout_above="@id/txt_final_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:padding="10dp"
+            android:text="GST Rs. 0"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_final_price"
+            android:layout_above="@id/btn_place_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:padding="10dp"
+            android:text="Final Price Rs. 0"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_place_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:background="#1A9A55"
+            android:text="Proceed to Checkout"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
 </RelativeLayout>

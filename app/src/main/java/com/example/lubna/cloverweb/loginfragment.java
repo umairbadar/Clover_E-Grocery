@@ -1,4 +1,6 @@
 package com.example.lubna.cloverweb;
+
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,180 +26,163 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
-import static com.google.android.gms.internal.zzip.runOnUiThread;
-public class loginfragment extends Fragment implements View.OnClickListener
-{
+
+public class loginfragment extends Fragment {
+
     View view;
-    public static final  String Pre = "MyPre";
-    public static final String LOGIN_URL = "http://172.16.10.202/api/checkLogin";
-    public static final String KEY_USERNAME = "email";
-    public static final String KEY_PASSWORD = "password";
-    private EditText editTextUsername;
-    private EditText editTextPassword;
-    private TextView newhere,signup;
-    private Button buttonLogin;
-    private String username;
-    private String password;
-    SharedPreferences sp;
-    SharedPreferences.Editor edit;
+    private TextView tv_create_account;
+
+    //Input Feilds
+    private EditText et_username, et_password;
+
+    //Login Button
+    private Button btn_login;
+
+    private FirebaseAuth firebaseAuth;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private ProgressDialog progressDialog;
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        view= inflater.inflate(R.layout.fragment_login, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_login, container, false);
         return view;
     }
+
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
-    {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        buttonLogin = view.findViewById(R.id.Elogin);
-        editTextUsername = view.findViewById(R.id.email);
-        editTextPassword = view.findViewById(R.id.password);
-        newhere = view.findViewById(R.id.newhere);
-        signup = view.findViewById(R.id.signup);
-        sp = getContext().getSharedPreferences(Pre, Context.MODE_PRIVATE);
-        buttonLogin.setOnClickListener(this);
-        newhere.setOnClickListener(new View.OnClickListener()
-        {
+
+        progressDialog = new ProgressDialog(getContext());
+
+        sharedPreferences = getActivity().getSharedPreferences("Pre", Context.MODE_PRIVATE);
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        et_username = view.findViewById(R.id.et_username);
+        et_password = view.findViewById(R.id.et_password);
+
+        //Login Button
+        btn_login = view.findViewById(R.id.btn_login);
+
+        tv_create_account = view.findViewById(R.id.tv_create_account);
+        tv_create_account.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                Intent i = new Intent(getContext(),SIgnup.class);
-                startActivity(i);
+            public void onClick(View v) {
+
+                Fragment fragment = new Fragment_Signup();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                ft.commit();
             }
         });
-        signup.setOnClickListener(new View.OnClickListener()
-        {
+
+        btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                Intent j = new Intent(getContext(),SIgnup.class);
-                startActivity(j);
+            public void onClick(View v) {
+
+                UserLogin();
             }
         });
     }
-    public boolean CheckFieldValidation()
-    {
-        boolean valid = true;
-        if (editTextUsername.getText().toString().equals(""))
-        {
-            editTextUsername.setError("Can't be Empty");
-            valid = false;
-        }
-        else if (editTextPassword.getText().toString().equals(""))
-        {
-            editTextPassword.setError("Can't be Empty");
-            valid = false;
-        }
-        return valid;
-    }
-    private void userLogin()
-    {
-        username = editTextUsername.getText().toString().trim();
-        password = editTextPassword.getText().toString().trim();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        if(response != null)
-                        {
-                            try
-                            {
-                                JSONObject json = new JSONObject(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
-                                String msg = json.getString("msg");
-                                if(msg.equals("success"))
-                                {
-                                    edit = sp.edit();
-                                    edit.putString("customerid",json.getString("customer_id"));
-                                    edit.putString("customername",json.getString("customer_fname"));
-                                    edit.putString("email",username);
-                                    edit.apply();
-                                    //edit.commit();
-                                    openProfile();
-                                }
-                                else if(msg.equals("error"))
-                                {
-                                    Toast.makeText(getContext(), "Your Email Or Password is Incorrect", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                            catch (final JSONException e)
-                            {
-                                runOnUiThread(new Runnable()
-                                {
-                                    @Override
-                                    public void run()
-                                    {
-                                        Toast.makeText(getContext(), "Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+    private void UserLogin() {
+        progressDialog.setTitle("Please wait");
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        final String username = et_username.getText().toString().trim();
+        final String password = et_password.getText().toString().trim();
+
+        if (username.isEmpty()) {
+            progressDialog.dismiss();
+            et_username.setError("Please enter Username");
+            et_username.requestFocus();
+        } else {
+            if (password.isEmpty()) {
+                progressDialog.dismiss();
+                et_password.setError("Please enter Password");
+                et_password.requestFocus();
+            } else {
+                editor = sharedPreferences.edit();
+                editor.putBoolean("UserLogin", true);
+                editor.apply();
+
+                final String URL_LOGIN = "http://172.16.10.203/api/signin";
+
+                StringRequest req = new StringRequest(Request.Method.POST, URL_LOGIN,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    String msg = jsonObject.getString("msg");
+                                    if (msg.equals("success")) {
+                                        progressDialog.dismiss();
+
+                                        /*Toast.makeText(getContext(), "User Logged in!!",
+                                                Toast.LENGTH_LONG).show();*/
+
+                                         /*if (getFragmentManager().getBackStackEntryCount() != 0) {
+                                            getFragmentManager().popBackStack();
+                                        }*/
+
+                                        JSONObject innerObj = jsonObject.getJSONObject("user");
+                                        String user_id = innerObj.getString("id");
+                                        editor.putString("UserID", user_id);
+                                        editor.apply();
+
+                                        Fragment fragment = new Home();
+                                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.content_egrocery,fragment);
+                                        ft.commit();
+
+
+                                    } else {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), "Error",
+                                                Toast.LENGTH_LONG).show();
                                     }
-                                });
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
-                        }
-                        else
-                        {
-                            Toast.makeText(getContext(),
-                                    "Couldn't get json from server. Check LogCat for possible errors!", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                                Toast.makeText(getContext(), error.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }) {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("email", username);
+                        map.put("password", password);
+                        return map;
                     }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError
-            {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put(KEY_USERNAME, username);
-                map.put(KEY_PASSWORD, password);
-                return map;
+                };
+
+                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                requestQueue.add(req);
             }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        requestQueue.add(stringRequest);
-    }
-    private void openProfile()
-    {
-        Intent intent = new Intent(getContext(), egrocery.class);
-        intent.putExtra(KEY_USERNAME, username);
-        startActivity(intent);
-    }
-    public void onClick(View v)
-    {
-        isNetworkAvailable();
-        edit = sp.edit();
-        edit.putBoolean("saveLogin",true);
-        edit.apply();
-        Intent intent = new Intent(getContext(), egrocery.class);
-        //intent.putExtra(KEY_USERNAME, username);
-        startActivity(intent);
-    }
-    public boolean isNetworkAvailable()
-    {
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-        {
-            CheckFieldValidation();
-            userLogin();
-            return true;
         }
-        else if(networkInfo == null)
-        {
-            Toast.makeText(getContext(),"No internet Connection",Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return false;
     }
 }

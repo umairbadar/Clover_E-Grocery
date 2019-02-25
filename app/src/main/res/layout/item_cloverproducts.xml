@@ -44,15 +44,19 @@
                 android:textAlignment="center"
                 android:layout_marginBottom="3dp" />
 
-            <ImageView
-                android:id="@+id/trolleyimage"
+            <Button
+                android:id="@+id/btnAddtoCart"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:src="@drawable/shopcart"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:drawableLeft="@drawable/shopcart"
                 android:background="@drawable/roundgreenbutton"
-                android:textColor="#ff3232"
+                android:text="Add to cart"
                 android:layout_gravity="center"
-                android:layout_margin="10dp" />
+                android:textSize="10sp"
+                android:paddingRight="10dp"
+                android:layout_marginBottom="10dp"/>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

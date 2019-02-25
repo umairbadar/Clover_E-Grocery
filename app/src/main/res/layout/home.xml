@@ -20,38 +20,25 @@
             android:weightSum="3"
             android:layout_marginTop="10dp">
             <TextView
+                android:layout_marginTop="5dp"
                 android:id="@+id/tv1"
+                android:lineSpacingMultiplier="0.8"
                 android:layout_width="0dp"
-                android:layout_weight="2.4"
                 android:layout_height="match_parent"
-                android:textColor="#000"
-                android:textSize="18sp"
+                android:layout_weight="2.4"
                 android:paddingLeft="5dp"
-                android:textStyle="bold"
-                />
-            <Button
-                android:id="@+id/left"
-                android:layout_width="0dp"
-                android:layout_marginRight="7dp"
-                android:layout_weight="0.3"
-                android:layout_height="30dp"
-                android:drawableLeft="@drawable/chevronleft"
-                android:background="@drawable/buttongrey"
+                android:layout_marginLeft="2dp"
+                android:text="NON-CLOVER PRODUCTS"
                 android:textColor="#000"
-                />
-            <Button
-                android:id="@+id/right"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_height="30dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/buttongrey"
-                android:drawableRight="@drawable/chevronright"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:typeface="serif"
                 />
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contact_recyclerview2"
             android:layout_width="match_parent"
+            android:typeface="serif"
             android:layout_height="wrap_content"
             android:scrollbars="horizontal">
         </android.support.v7.widget.RecyclerView>
@@ -62,39 +49,25 @@
             android:weightSum="3"
             android:layout_marginTop="10dp">
             <TextView
+                android:layout_marginTop="5dp"
+                android:text="CLOVER-PRODUCTS"
                 android:id="@+id/tv2"
+                android:layout_marginLeft="2dp"
                 android:layout_width="0dp"
                 android:layout_weight="2.4"
                 android:layout_height="match_parent"
                 android:textColor="#000"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
                 android:textStyle="bold"
-                />
-            <Button
-                android:id="@+id/left1"
-                android:layout_marginRight="7dp"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_height="30dp"
-                android:drawableLeft="@drawable/chevronleft"
-                android:background="@drawable/buttongrey"
-                android:textColor="#000"
-                />
-            <Button
-                android:id="@+id/right1"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_height="30dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/buttongrey"
-                android:drawableRight="@drawable/chevronright"
+                android:textSize="14sp"
+                android:paddingLeft="5dp"
+                android:typeface="serif"
                 />
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contact_recyclerview3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:typeface="serif"
             android:scrollbars="horizontal">
         </android.support.v7.widget.RecyclerView>
         <LinearLayout
@@ -103,51 +76,40 @@
             android:orientation="horizontal"
             android:weightSum="3"
             android:layout_marginTop="10dp">
+
             <TextView
                 android:id="@+id/tv3"
                 android:layout_width="0dp"
-                android:layout_weight="2.4"
+                android:layout_marginLeft="2dp"
                 android:layout_height="match_parent"
-                android:textColor="#000"
-                android:textSize="18sp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="2.4"
                 android:paddingLeft="5dp"
-                android:textStyle="bold"
-                />
-            <Button
-                android:layout_marginRight="7dp"
-                android:id="@+id/left2"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_height="30dp"
-                android:drawableLeft="@drawable/chevronleft"
-                android:background="@drawable/buttongrey"
+                android:text="LATEST-PRODUCTS"
                 android:textColor="#000"
-                />
-            <Button
-                android:id="@+id/right2"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_marginRight="16dp"
-                android:layout_height="30dp"
-                android:background="@drawable/buttongrey"
-                android:drawableRight="@drawable/chevronright"
-                />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contact_recyclerview4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:typeface="serif"
             android:scrollbars="horizontal">
         </android.support.v7.widget.RecyclerView>
         <ExpandableListView
             android:id="@+id/listmainexpand"
             android:layout_width="match_parent"
             android:layout_height="400dp"
+            android:layoutDirection="rtl"
             android:nestedScrollingEnabled="true">
         </ExpandableListView>
+
+
     </LinearLayout>
 </ScrollView>
-
+    <!--   android:groupIndicator="@drawable/customindicator"-->
 
 
 

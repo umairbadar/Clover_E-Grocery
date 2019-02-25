@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fdf9f9</color>
+    <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#0288D1</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#1A9A55</color>
     <color name="tabtextcolor">#707070</color>
     <color name="tabindicator">#b60f0f</color>
+    <color name="clovergreen">#1a9556</color>
+    <color name="back1">#003076</color>
+    <color name="white">#FFFFFF</color>
+    <color name="green">#1A9A55</color>
+    <color name="blue">#003076</color>
 
 </resources>
