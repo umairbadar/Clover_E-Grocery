@@ -67,4 +67,7 @@ dependencies {
     //Firebase Phone Verification
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-core:16.0.7'
+
+    //Custom ProgressDialog
+    implementation 'com.github.d-max:spots-dialog:0.4@aar'
 }

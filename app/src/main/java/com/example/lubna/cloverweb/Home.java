@@ -1,5 +1,6 @@
 package com.example.lubna.cloverweb;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -56,7 +57,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
+
 public class Home extends Fragment {
+
     ArrayList<String> sellstore;
     private String child_cat_id;
     Dialog MyDialog;
@@ -103,11 +107,17 @@ public class Home extends Fragment {
     private Button left, right;
     PlaceAutocompleteFragment places;
     private String StoreID;
+    AlertDialog progressDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home, container, false);
+
+        progressDialog = new SpotsDialog(getContext(), R.style.Custom);
+
+        progressDialog.show();
+        progressDialog.setCancelable(false);
 
         sp = getActivity().getSharedPreferences("MyPre", Context.MODE_PRIVATE);
         SharedPreferences pref = getActivity().getSharedPreferences("MyPre", Context.MODE_PRIVATE);
@@ -116,6 +126,29 @@ public class Home extends Fragment {
         if (!location.equals(true)) {
             MyCustomAlertDialog();
         }
+        //Non Clover Products
+        myrecyclerview2 = view.findViewById(R.id.contact_recyclerview2);
+        myrecyclerview2.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        products = new ArrayList<>();
+        if (location.equals(true))
+            FetchNonCloverProducts();
+
+        //Clover Products
+        myrecyclerview3 = view.findViewById(R.id.contact_recyclerview3);
+        myrecyclerview3.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        CloverProducts = new ArrayList<>();
+        if (location.equals(true))
+            FetchCloverProducts();
+
+        //Latest Products
+        myrecyclerview4 = view.findViewById(R.id.contact_recyclerview4);
+        myrecyclerview4.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        LatestProducts = new ArrayList<>();
+        if (location.equals(true))
+            FetchLatestProducts();
 
         //spinner.setVisibility(View.GONE);
         stores = new ArrayList<>();
@@ -127,27 +160,6 @@ public class Home extends Fragment {
         tv2 = view.findViewById(R.id.tv2);
         tv3 = view.findViewById(R.id.tv3);
 
-
-        //Non Clover Products
-        myrecyclerview2 = view.findViewById(R.id.contact_recyclerview2);
-        myrecyclerview2.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
-        products = new ArrayList<>();
-        FetchNonCloverProducts();
-
-        //Clover Products
-        myrecyclerview3 = view.findViewById(R.id.contact_recyclerview3);
-        myrecyclerview3.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
-        CloverProducts = new ArrayList<>();
-        FetchCloverProducts();
-
-        //Latest Products
-        myrecyclerview4 = view.findViewById(R.id.contact_recyclerview4);
-        myrecyclerview4.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
-        LatestProducts = new ArrayList<>();
-        FetchLatestProducts();
 
         SpannableString content = new SpannableString(getResources().getString(R.string.prod));
         content.setSpan(new UnderlineSpan(), 0, content.length() - 9, 0);
@@ -161,7 +173,7 @@ public class Home extends Fragment {
         //Expandable ListView
         expListView = view.findViewById(R.id.listmainexpand);
         new DownloadJason().execute();
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+       /* expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 if (groupPosition == 9) {
@@ -170,7 +182,7 @@ public class Home extends Fragment {
                     return false;
                 }
             }
-        });
+        });*/
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -639,8 +651,84 @@ public class Home extends Fragment {
                     }
                 } else if (groupPosition == 9) {
                     switch (childPosition) {
-                        //no child available
+                        case 0:
+                            child_cat_id = "102";
+                            fragment = new Fragmentproductdetail();
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            args = new Bundle();
+                            args.putString("id", child_cat_id);
+                            fragment.setArguments(args);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_egrocery, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            break;
+                        case 1:
+                            child_cat_id = "104";
+                            fragment = new Fragmentproductdetail();
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            args = new Bundle();
+                            args.putString("id", child_cat_id);
+                            fragment.setArguments(args);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_egrocery, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            break;
+                        case 2:
+                            child_cat_id = "105";
+                            fragment = new Fragmentproductdetail();
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            args = new Bundle();
+                            args.putString("id", child_cat_id);
+                            fragment.setArguments(args);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_egrocery, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            break;
+                        case 3:
+                            child_cat_id = "107";
+                            fragment = new Fragmentproductdetail();
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            args = new Bundle();
+                            args.putString("id", child_cat_id);
+                            fragment.setArguments(args);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_egrocery, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            break;
+                        case 4:
+                            child_cat_id = "109";
+                            fragment = new Fragmentproductdetail();
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            args = new Bundle();
+                            args.putString("id", child_cat_id);
+                            fragment.setArguments(args);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_egrocery, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            break;
                     }
+
+                } else if (groupPosition == 10) {
+                    switch (childPosition) {
+                        case 0:
+                            child_cat_id = "95";
+                            fragment = new Fragmentproductdetail();
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            args = new Bundle();
+                            args.putString("id", child_cat_id);
+                            fragment.setArguments(args);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.content_egrocery, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                            break;
+                    }
+
                 }
                 return false;
 
@@ -685,16 +773,11 @@ public class Home extends Fragment {
             URL = "http://172.16.10.203/api/getAllProducts/" + StoreID;
         }
 
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Please Wait...");
-        progressDialog.show();
-
         StringRequest req = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("non_clover_products");
@@ -726,7 +809,8 @@ public class Home extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        // Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Non Clover Error: " + error.getMessage(),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -745,16 +829,11 @@ public class Home extends Fragment {
             URL = "http://172.16.10.203/api/getAllProducts/" + StoreID;
         }
 
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Please Wait...");
-        progressDialog.show();
-
         StringRequest req = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("clover_products");
@@ -784,7 +863,8 @@ public class Home extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        //  Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Clover Error: " + error.getMessage(),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -802,17 +882,20 @@ public class Home extends Fragment {
         } else {
             URL = "http://172.16.10.203/api/getAllProducts/" + StoreID;
         }
-
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Please Wait...");
-        progressDialog.show();
-
         StringRequest req = new StringRequest(Request.Method.GET, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog.dismiss();
+                        Runnable progressRunnable = new Runnable() {
+
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                            }
+                        };
+
+                        Handler pdCanceller = new Handler();
+                        pdCanceller.postDelayed(progressRunnable, 4000);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("latest_products");
@@ -844,7 +927,8 @@ public class Home extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        // Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Latest Error: " + error.getMessage(),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -992,15 +1076,14 @@ public class Home extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (spinner.getSelectedItemPosition() == 0)
-                {
-                    Toast.makeText(getContext(),"Please Select Store!",Toast.LENGTH_LONG).show();
-                }
-                else {
+                if (spinner.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getContext(), "Please Select Store!", Toast.LENGTH_LONG).show();
+                } else {
                     //Toast.makeText(getContext(),packid,Toast.LENGTH_LONG).show();
-                    FetchCloverProducts();
+
                     FetchNonCloverProducts();
                     FetchLatestProducts();
+                    FetchCloverProducts();
                     MyDialog.dismiss();
                 }
             }
@@ -1027,7 +1110,7 @@ public class Home extends Fragment {
                 edit.putBoolean("location", true);
                 edit.commit();
                 edit.apply();
-                location = true;
+                //location = true;
                 stores.clear();
             }
 

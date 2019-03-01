@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,11 +66,16 @@ public class Adapter_NonCloverProducts extends RecyclerView.Adapter<Adapter_NonC
 
                 /*SharedPreferences sp = context.getSharedPreferences("Pre",Context.MODE_PRIVATE);
                 Boolean UserLogin = sp.getBoolean("UserLogin",false);*/
-                count = Common.cartRepository.countItem(items.getProduct_id());
 
+                count = Common.cartRepository.countItem(items.getProduct_id());
                 if (count >= 1) {
-                    Toast.makeText(context, "Item already exist in Cart",
-                            Toast.LENGTH_LONG).show();
+                    TextView text = (TextView) egrocery.layout.findViewById(R.id.text);
+                    text.setText("Item already exist in Cart");
+
+                    Toast toast = new Toast(context);
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.setView(egrocery.layout);
+                    toast.show();
                 } else {
                     try {
                         Cart cartItem = new Cart();
@@ -88,7 +94,19 @@ public class Adapter_NonCloverProducts extends RecyclerView.Adapter<Adapter_NonC
 
                         Log.e("Clover_Debug", new Gson().toJson(cartItem));
 
-                        Toast.makeText(context, "Added to Cart", Toast.LENGTH_SHORT).show();
+                        /*Toast toast = Toast.makeText(context, "Added to Cart", Toast.LENGTH_SHORT);
+                        toast.show();*/
+
+                        TextView text = (TextView) egrocery.layout.findViewById(R.id.text);
+                        text.setText("Added to Cart");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(egrocery.layout);
+                        toast.show();
+
+
                     } catch (Exception ex) {
                         Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
                     }

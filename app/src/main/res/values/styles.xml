@@ -28,4 +28,12 @@
         <item name="color">#000000</item>
     </style>
 
+    <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:windowBackground">@color/blue</item>
+        <item name="DialogTitleText">Please Wait</item>
+        <item name="DialogSpotColor">@color/green</item>
+        <item name="DialogSpotCount">7</item>
+    </style>
+
 </resources>

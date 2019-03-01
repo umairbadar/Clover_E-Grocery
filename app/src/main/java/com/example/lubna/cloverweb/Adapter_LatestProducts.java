@@ -63,8 +63,14 @@ public class Adapter_LatestProducts extends RecyclerView.Adapter<Adapter_LatestP
                 int count = Common.cartRepository.countItem(items.getProduct_id());
                 if (count >= 1)
                 {
-                    Toast.makeText(context,"Item already exist in Cart",
-                            Toast.LENGTH_LONG).show();
+                    TextView text = (TextView) egrocery.layout.findViewById(R.id.text);
+                    text.setText("Item already exist in Cart");
+
+                    Toast toast = new Toast(context);
+                    //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.setView(egrocery.layout);
+                    toast.show();
                 }
                 else {
 
@@ -83,7 +89,14 @@ public class Adapter_LatestProducts extends RecyclerView.Adapter<Adapter_LatestP
                         //Icon Count
                         egrocery.badge.setText(String.valueOf(Common.cartRepository.countCartItems()));
 
-                        Toast.makeText(context, "Added to Cart", Toast.LENGTH_LONG).show();
+                        TextView text = (TextView) egrocery.layout.findViewById(R.id.text);
+                        text.setText("Added to Cart");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(egrocery.layout);
+                        toast.show();
 
 
                     } catch (Exception ex) {

@@ -9,9 +9,11 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -54,6 +56,7 @@ public class loginfragment extends Fragment {
     private SharedPreferences.Editor editor;
     private ProgressDialog progressDialog;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,6 +89,7 @@ public class loginfragment extends Fragment {
                 Fragment fragment = new Fragment_Signup();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -133,13 +137,6 @@ public class loginfragment extends Fragment {
                                     String msg = jsonObject.getString("msg");
                                     if (msg.equals("success")) {
                                         progressDialog.dismiss();
-
-                                        /*Toast.makeText(getContext(), "User Logged in!!",
-                                                Toast.LENGTH_LONG).show();*/
-
-                                         /*if (getFragmentManager().getBackStackEntryCount() != 0) {
-                                            getFragmentManager().popBackStack();
-                                        }*/
 
                                         JSONObject innerObj = jsonObject.getJSONObject("user");
                                         String user_id = innerObj.getString("id");

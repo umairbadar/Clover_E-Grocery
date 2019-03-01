@@ -15,11 +15,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lubna.cloverweb.Database.DataSource.CartRepository;
@@ -45,16 +50,35 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
 
     private FirebaseAuth firebaseAuth;
 
+    public static View layout;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_egrocery);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-
         sharedp = getSharedPreferences("Pre", Context.MODE_PRIVATE);
         UserLogin = sharedp.getBoolean("UserLogin", false);
+
+        if (UserLogin.equals(true)) {
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.loginfrag).setVisible(false);
+        } else if (UserLogin.equals(false)) {
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            Menu menu = navigationView.getMenu();
+            menu.findItem(R.id.logout).setVisible(false);
+        }
+
+        LayoutInflater inflater = getLayoutInflater();
+        layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_container));
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +97,8 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
             initDB();
             displaySelectedScreen(R.id.home);
         } else {
+            //Init Database
+            initDB();
             displaySelectedScreen(R.id.loginfrag);
         }
     }
@@ -102,6 +128,7 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
                 Fragment fragment = new Cart();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -121,34 +148,51 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     private void displaySelectedScreen(int id) {
-        if (UserLogin.equals(true)) {
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            Menu menu = navigationView.getMenu();
-            menu.findItem(R.id.loginfrag).setVisible(false);
-        } else if (UserLogin.equals(false)) {
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            Menu menu = navigationView.getMenu();
-            menu.findItem(R.id.logout).setVisible(false);
-        }
+
         Fragment fragment = null;
+        FragmentTransaction ft;
         switch (id) {
             case R.id.loginfrag:
                 fragment = new loginfragment();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                //ft.addToBackStack(null);
+                ft.commit();
                 break;
             case R.id.home:
                 fragment = new Home();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                //ft.addToBackStack(null);
+                ft.commit();
                 break;
             case R.id.cart:
                 fragment = new Cart();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
                 break;
             case R.id.terms:
                 fragment = new Fragment_Signup();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
                 break;
             case R.id.privacy:
                 fragment = new FragmentPolicy();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
                 break;
             case R.id.contact:
                 fragment = new FragmentContact();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
                 break;
             case R.id.locchan:
                 pref = getSharedPreferences("MyPre", Context.MODE_PRIVATE);
@@ -159,26 +203,36 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.about:
                 fragment = new FragmentAbout();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
                 break;
-            //        case R.id.Membership:
-            //            fragment = new Membership();
-            //            break;
             case R.id.logout:
                 firebaseAuth.signOut();
                 pref = getSharedPreferences("Pre", Context.MODE_PRIVATE);
                 editor = pref.edit();
                 editor.remove("UserLogin");
                 editor.apply();
-                Toast.makeText(getApplicationContext(), "User Logged Out", Toast.LENGTH_LONG).show();
-                startActivity(getIntent());
+                fragment = new Home();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                //ft.addToBackStack(null);
+                ft.commit();
+                NavigationView navigationView = findViewById(R.id.nav_view);
+                Menu menu = navigationView.getMenu();
+                menu.findItem(R.id.loginfrag).setVisible(false);
+                menu.findItem(R.id.logout).setVisible(true);
+                Toast.makeText(getApplicationContext(), "User Logged Out",
+                        Toast.LENGTH_LONG).show();
                 break;
         }
-        if (fragment != null) {
+        /*if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_egrocery, fragment);
-            ft.addToBackStack(null);
+            //ft.addToBackStack(null);
             ft.commit();
-        }
+        }*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
@@ -199,16 +253,16 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
     @Override
     public void onStop() {
         super.onStop();
-        pref = getSharedPreferences("MyPre", Context.MODE_PRIVATE);
-        editor = pref.edit();
+        //pref = getSharedPreferences("MyPre", Context.MODE_PRIVATE);
+        //editor = pref.edit();
         //editor.clear();
-        editor.remove("location");
-        editor.remove("StoreID");
-        editor.apply();
-        Common.cartRepository.emptyCart();
+        //editor.remove("location");
+        //editor.remove("StoreID");
+        //editor.apply();
+        //Common.cartRepository.emptyCart();
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
@@ -225,9 +279,9 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
-    }
+    }*/
 
-    public void updateCartCount() {
+    /*public void updateCartCount() {
 
         if (badge == null) return;
         runOnUiThread(new Runnable() {
@@ -242,7 +296,7 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
             }
         });
 
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -250,4 +304,17 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
         //updateCartCount();
     }
 
+    /*@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        Fragment fragment = null;
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            //finish();
+            if (fragment == new Home())
+            {
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }*/
 }

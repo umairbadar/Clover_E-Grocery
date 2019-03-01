@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.example.lubna.cloverweb.Utils.Common;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -41,13 +43,17 @@ public class Cart extends Fragment {
     RecyclerView recyclerView_cart;
     Button btn_place_order;
     SharedPreferences pref;
-    public static TextView txt_total_price, txt_gst, txt_final_price;
+    public static TextView txt_total_price, txt_item_count;
+
+    public static RelativeLayout layout01,layout02;
 
     CompositeDisposable compositeDisposable;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Boolean UserLogin;
+
+    Button btn_add_items_to_cart;
 
     @Nullable
     @Override
@@ -56,28 +62,59 @@ public class Cart extends Fragment {
         return rootview;
     }
 
-    @SuppressLint("LongLogTag")
+    @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        txt_gst = view.findViewById(R.id.txt_gst);
-        txt_final_price = view.findViewById(R.id.txt_final_price);
+        btn_add_items_to_cart = view.findViewById(R.id.btn_add_items_to_cart);
+        btn_add_items_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment fragment = new Home();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery,fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        layout01 = view.findViewById(R.id.Cart_layout01);
+        layout02 = view.findViewById(R.id.Cart_layout02);
+
+        if (Common.cartRepository.countCartItems() == 0)
+        {
+            layout01.setVisibility(View.GONE);
+            layout02.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            layout01.setVisibility(View.VISIBLE);
+            layout02.setVisibility(View.GONE);
+        }
+
+        txt_total_price = view.findViewById(R.id.txt_total_price);
+        txt_item_count = view.findViewById(R.id.txt_item_count);
+
+        txt_item_count.setText(String.valueOf("Items: " + Common.cartRepository.countCartItems()));
+        txt_total_price.setText(String.valueOf(Common.cartRepository.sumCartItems()));
 
         sharedPreferences = getActivity().getSharedPreferences("Pre", Context.MODE_PRIVATE);
         UserLogin = sharedPreferences.getBoolean("UserLogin", false);
 
-        //TextView Total Price of Cart
+        /*//TextView Total Price of Cart
         txt_total_price = view.findViewById(R.id.txt_total_price);
-        txt_total_price.setText("Total: Rs." + String.valueOf(Common.cartRepository.sumCartItems()));
+        String t_price = new DecimalFormat(".00").format(Common.cartRepository.sumCartItems());
+        txt_total_price.setText("Total: Rs." + t_price);*/
 
-        //Calculating GST
+        /*//Calculating GST
         double cal_gst = Common.cartRepository.sumCartItems() * 0.17;
-        txt_gst.setText("GST Rs." + String.valueOf(cal_gst));
+        txt_gst.setText("GST Rs." + new DecimalFormat("##.##").format(cal_gst));*/
 
-        //Calculate Final Price
+        /*//Calculate Final Price
         double final_price = Common.cartRepository.sumCartItems() + cal_gst;
-        txt_final_price.setText("Final Price Rs." + String.valueOf(final_price));
+        txt_final_price.setText("Final Price Rs." + String.valueOf(final_price));*/
 
         compositeDisposable = new CompositeDisposable();
 
@@ -134,27 +171,4 @@ public class Cart extends Fragment {
         recyclerView_cart.setAdapter(adapter);
     }
 
-    @Override
-    public void onDetach() {
-        compositeDisposable.clear();
-        super.onDetach();
-    }
-
-    @Override
-    public void onDestroyView() {
-        compositeDisposable.clear();
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        compositeDisposable.clear();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onStop() {
-        compositeDisposable.clear();
-        super.onStop();
-    }
 }
