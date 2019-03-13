@@ -89,7 +89,7 @@ public class loginfragment extends Fragment {
                 Fragment fragment = new Fragment_Signup();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_egrocery, fragment);
-                ft.addToBackStack(null);
+                //ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -128,41 +128,44 @@ public class loginfragment extends Fragment {
                 final String URL_LOGIN = "http://172.16.10.203/api/signin";
 
                 StringRequest req = new StringRequest(Request.Method.POST, URL_LOGIN,
-                        new Response.Listener<String>() {
+                        new Response.Listener<String>()
+                        {
                             @Override
-                            public void onResponse(String response) {
-
-                                try {
+                            public void onResponse(String response)
+                            {
+                                try
+                                {
                                     JSONObject jsonObject = new JSONObject(response);
                                     String msg = jsonObject.getString("msg");
-                                    if (msg.equals("success")) {
+                                    if (msg.equals("success"))
+                                    {
                                         progressDialog.dismiss();
-
                                         JSONObject innerObj = jsonObject.getJSONObject("user");
                                         String user_id = innerObj.getString("id");
                                         editor.putString("UserID", user_id);
                                         editor.apply();
-
-                                        Fragment fragment = new Home();
+                                        /*Fragment fragment = new Home();
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.content_egrocery,fragment);
-                                        ft.commit();
-
-
-                                    } else {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getContext(), "Error",
-                                                Toast.LENGTH_LONG).show();
+                                        ft.commit();*/
+                                        startActivity(new Intent(getContext(),egrocery.class));
                                     }
-                                } catch (JSONException e) {
+                                    else
+                                        {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e)
+                                {
                                     e.printStackTrace();
                                 }
-
                             }
                         },
-                        new Response.ErrorListener() {
+                        new Response.ErrorListener()
+                        {
                             @Override
-                            public void onErrorResponse(VolleyError error) {
+                            public void onErrorResponse(VolleyError error)
+                            {
 
                                 Toast.makeText(getContext(), error.getMessage(),
                                         Toast.LENGTH_LONG).show();

@@ -41,8 +41,8 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
     private SharedPreferences sharedp;
     private Boolean UserLogin;
     EditText input;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    SharedPreferences pref, pref1;
+    SharedPreferences.Editor editor, editor1;
     public static NotificationBadge badge;
     ImageView cart_icon;
 
@@ -77,7 +77,6 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
 
 
         firebaseAuth = FirebaseAuth.getInstance();
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -173,27 +172,6 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
                 ft.addToBackStack(null);
                 ft.commit();
                 break;
-            case R.id.terms:
-                fragment = new Fragment_Signup();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.content_egrocery, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
-                break;
-            case R.id.privacy:
-                fragment = new FragmentPolicy();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.content_egrocery, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
-                break;
-            case R.id.contact:
-                fragment = new FragmentContact();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.content_egrocery, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
-                break;
             case R.id.locchan:
                 pref = getSharedPreferences("MyPre", Context.MODE_PRIVATE);
                 editor = pref.edit();
@@ -201,8 +179,15 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
                 editor.apply();
                 startActivity(getIntent());
                 break;
-            case R.id.about:
-                fragment = new FragmentAbout();
+            case R.id.my_orders:
+                fragment = new FragmentMyOrder();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_egrocery, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+                break;
+            case R.id.membership:
+                fragment = new FragmentMemberShip();
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_egrocery, fragment);
                 ft.addToBackStack(null);
@@ -210,19 +195,26 @@ public class egrocery extends AppCompatActivity implements NavigationView.OnNavi
                 break;
             case R.id.logout:
                 firebaseAuth.signOut();
+                Common.cartRepository.emptyCart();
                 pref = getSharedPreferences("Pre", Context.MODE_PRIVATE);
+                pref1 = getSharedPreferences("MyPre", Context.MODE_PRIVATE);
                 editor = pref.edit();
+                editor1 = pref1.edit();
+                editor1.remove("location");
                 editor.remove("UserLogin");
+                editor.clear();
+                editor1.apply();
                 editor.apply();
-                fragment = new Home();
+                startActivity(getIntent());
+                /*fragment = new Home();
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_egrocery, fragment);
                 //ft.addToBackStack(null);
-                ft.commit();
-                NavigationView navigationView = findViewById(R.id.nav_view);
+                ft.commit();*/
+                /*NavigationView navigationView = findViewById(R.id.nav_view);
                 Menu menu = navigationView.getMenu();
                 menu.findItem(R.id.loginfrag).setVisible(false);
-                menu.findItem(R.id.logout).setVisible(true);
+                menu.findItem(R.id.logout).setEnabled(false);*/
                 Toast.makeText(getApplicationContext(), "User Logged Out",
                         Toast.LENGTH_LONG).show();
                 break;

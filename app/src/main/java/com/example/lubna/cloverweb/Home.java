@@ -118,12 +118,12 @@ public class Home extends Fragment {
 
         progressDialog.show();
         progressDialog.setCancelable(false);
-
         sp = getActivity().getSharedPreferences("MyPre", Context.MODE_PRIVATE);
         SharedPreferences pref = getActivity().getSharedPreferences("MyPre", Context.MODE_PRIVATE);
         location = pref.getBoolean("location", false);
 
-        if (!location.equals(true)) {
+        if (!location.equals(true))
+        {
             MyCustomAlertDialog();
         }
         //Non Clover Products
@@ -167,9 +167,10 @@ public class Home extends Fragment {
         SpannableString content2 = new SpannableString(getResources().getString(R.string.prod1));
         content2.setSpan(new UnderlineSpan(), 0, content2.length() - 9, 0);
         tv2.setText(content2);
-        SpannableString content3 = new SpannableString(getResources().getString(R.string.prod2));
-        content3.setSpan(new UnderlineSpan(), 0, content3.length() - 9, 0);
-        tv3.setText(content3);
+//        SpannableString content3 = new SpannableString(getResources().getString(R.string.prod2));
+//        content3.setSpan(new UnderlineSpan(), 0, content3.length() - 9, 0);
+//        tv3.setText(content3);
+
         //Expandable ListView
         expListView = view.findViewById(R.id.listmainexpand);
         new DownloadJason().execute();
@@ -1072,34 +1073,29 @@ public class Home extends Fragment {
         MyDialog.setCancelable(false);
         spinner = MyDialog.findViewById(R.id.orderspinner);
         submitstore = MyDialog.findViewById(R.id.buttonaddress);
-        submitstore.setOnClickListener(new View.OnClickListener() {
+        submitstore.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-
-                if (spinner.getSelectedItemPosition() == 0) {
+            public void onClick(View v)
+            {
+                if (spinner.getSelectedItemPosition() == 0)
+                {
                     Toast.makeText(getContext(), "Please Select Store!", Toast.LENGTH_LONG).show();
-                } else {
-                    //Toast.makeText(getContext(),packid,Toast.LENGTH_LONG).show();
-
-                    FetchNonCloverProducts();
-                    FetchLatestProducts();
-                    FetchCloverProducts();
-                    MyDialog.dismiss();
                 }
-            }
+                else
+                    {
+                        FetchNonCloverProducts();
+                        FetchLatestProducts();
+                        FetchCloverProducts();
+                        MyDialog.dismiss();
+                    } }
         });
         places = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        /*ImageView searchicon = (ImageView) ((LinearLayout)places.getView()).getChildAt(0);
-        searchicon.setImageDrawable(getResources().getDrawable(R.drawable.close));
-        searchicon.setOnClickListener(new View.OnClickListener() {
+        places.setOnPlaceSelectedListener(new PlaceSelectionListener()
+        {
             @Override
-            public void onClick(View v) {
-                stores.clear();
-            }
-        });*/
-        places.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
+            public void onPlaceSelected(Place place)
+            {
                 String placeName = (String) place.getAddress();
                 //Toast.makeText(getContext(),placeName,Toast.LENGTH_LONG).show();
                 GeocodingLocation locationAddress = new GeocodingLocation();
@@ -1113,9 +1109,9 @@ public class Home extends Fragment {
                 //location = true;
                 stores.clear();
             }
-
             @Override
-            public void onError(Status status) {
+            public void onError(Status status)
+            {
                 Toast.makeText(getContext(), status.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -1124,8 +1120,5 @@ public class Home extends Fragment {
                 .build();
         places.setFilter(typeFilter);
         places.getView().setBackgroundColor(Color.WHITE);
-
     }
-
-
 }

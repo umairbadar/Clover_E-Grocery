@@ -2,70 +2,65 @@ package com.example.lubna.cloverweb;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.lubna.cloverweb.Utils.Common;
 
-import org.w3c.dom.Text;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
-public class Cart extends Fragment {
-
+public class Cart extends Fragment
+{
     RecyclerView recyclerView_cart;
     Button btn_place_order;
-    SharedPreferences pref;
-    public static TextView txt_total_price, txt_item_count;
-
+    String gettotal;
+    public static TextView txt_total_price,txt_gst,txt_final_price;
     public static RelativeLayout layout01,layout02;
-
     CompositeDisposable compositeDisposable;
-
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     Boolean UserLogin;
-
     Button btn_add_items_to_cart;
-
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         final ViewGroup rootview = (ViewGroup) inflater.inflate(R.layout.cart, container, false);
         return rootview;
     }
-
     @SuppressLint({"LongLogTag", "SetTextI18n"})
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
+
+        txt_gst = view.findViewById(R.id.txt_gst);
+        txt_final_price = view.findViewById(R.id.txt_final_price);
 
         btn_add_items_to_cart = view.findViewById(R.id.btn_add_items_to_cart);
         btn_add_items_to_cart.setOnClickListener(new View.OnClickListener() {
@@ -95,12 +90,14 @@ public class Cart extends Fragment {
         }
 
         txt_total_price = view.findViewById(R.id.txt_total_price);
-        txt_item_count = view.findViewById(R.id.txt_item_count);
-
-        txt_item_count.setText(String.valueOf("Items: " + Common.cartRepository.countCartItems()));
+        //txt_item_count = view.findViewById(R.id.txt_item_count);
+        //txt_item_count.setText(String.valueOf("Items: " + Common.cartRepository.countCartItems()));
         txt_total_price.setText(String.valueOf(Common.cartRepository.sumCartItems()));
-
+        //gettotal = txt_total_price.getText().toString();
         sharedPreferences = getActivity().getSharedPreferences("Pre", Context.MODE_PRIVATE);
+        /*SharedPreferences.Editor editor1 = sharedPreferences.edit();
+        editor1.putString("value1",gettotal);
+        editor1.apply();*/
         UserLogin = sharedPreferences.getBoolean("UserLogin", false);
 
         /*//TextView Total Price of Cart
@@ -123,6 +120,7 @@ public class Cart extends Fragment {
         recyclerView_cart.setHasFixedSize(true);
 
         loadCartItems();
+        getGst(getContext());
 
         btn_place_order = view.findViewById(R.id.btn_place_order);
 
@@ -140,6 +138,11 @@ public class Cart extends Fragment {
                 else
                 {
                     Fragment fragment = new FragmentSelectAddress();
+                    Bundle args = new Bundle();
+                    args.putString("TotalAmount", txt_final_price.getText().toString());
+                    args.putString("SubTotal", txt_total_price.getText().toString());
+                    args.putString("GST", txt_gst.getText().toString());
+                    fragment.setArguments(args);
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.content_egrocery,fragment);
                     ft.addToBackStack(null);
@@ -169,6 +172,45 @@ public class Cart extends Fragment {
 
         Adapter_Cart adapter = new Adapter_Cart(getContext(), carts);
         recyclerView_cart.setAdapter(adapter);
+    }
+
+    public void getGst(final Context context)
+    {
+        String URL = "http://172.16.10.203/api/get-gst-tax";
+
+        StringRequest req = new StringRequest(Request.Method.GET, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        if (response != null)
+                        {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String tax = jsonObject.getString("percentage");
+                                float t_price = Float.parseFloat(txt_total_price.getText().toString());
+                                float gst = (Float.parseFloat(tax)/100);
+                                float cal_gst = t_price * gst;
+                                txt_gst.setText(String.valueOf(cal_gst));
+                                float f_price = t_price + cal_gst;
+                                txt_final_price.setText(String.valueOf(f_price));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context,error.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(req);
     }
 
 }

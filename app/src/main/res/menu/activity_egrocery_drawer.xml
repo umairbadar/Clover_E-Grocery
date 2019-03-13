@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <group android:checkableBehavior="single"
+    <group
         android:id="@+id/grouptop"
-        >
+        android:checkableBehavior="single">
 
 
         <item
             android:id="@+id/loginfrag"
-            android:title="Login"
             android:icon="@drawable/person"
-            />
+            android:title="Login" />
         <item
             android:id="@+id/home"
             android:icon="@drawable/home"
-            android:title="Home"
-            />
+            android:title="Home" />
         <item
             android:id="@+id/cart"
             android:icon="@drawable/cart"
@@ -27,40 +25,24 @@
         <item
             android:id="@+id/locchan"
             android:icon="@drawable/locationchange"
-            android:title="Change Location"
-            />
+            android:title="Change Location" />
 
     </group>
-    <group android:checkableBehavior="single"
+    <group
         android:id="@+id/groupbottom"
-        >
-   <item
-       android:id="@+id/terms"
-       android:title="Terms and Conditions"
-       android:icon="@drawable/termsand"
-       />
+        android:checkableBehavior="single">
+
         <item
-            android:icon="@drawable/privacypol"
-            android:id="@+id/privacy"
-            android:title="Privacy Policy"
-            />
-        <item
-            android:icon="@drawable/conta"
-            android:id="@+id/contact"
-            android:title="Contact Us"
-            />
-        <item
+            android:id="@+id/my_orders"
             android:icon="@drawable/abous"
-            android:id="@+id/about"
-            android:title="About Us"
-            />
+            android:title="My Orders" />
         <item
-            android:id="@+id/Membership"
+            android:id="@+id/membership"
             android:icon="@drawable/membership"
             android:title="Membership" />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/logout"
             android:title="Logout" />
-        </group>
+    </group>
 </menu>
