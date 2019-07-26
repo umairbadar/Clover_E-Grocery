@@ -4,84 +4,99 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-        <ViewFlipper
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <VideoView
+            android:id="@+id/videoview"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/viewflip"
-            />
+            android:layout_height="250dp" />
+
+        <TextView
+            android:id="@+id/tv_selected_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textColor="@color/green"
+            android:text="Selected Store"
+            android:textSize="22sp"
+            android:typeface="serif" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginTop="10dp">
+            android:weightSum="3">
+
             <TextView
-                android:layout_marginTop="5dp"
                 android:id="@+id/tv1"
-                android:lineSpacingMultiplier="0.8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2.4"
-                android:paddingLeft="5dp"
                 android:layout_marginLeft="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="2.4"
+                android:lineSpacingMultiplier="0.8"
+                android:paddingLeft="5dp"
                 android:text="NON-CLOVER PRODUCTS"
                 android:textColor="#000"
-                android:textStyle="bold"
                 android:textSize="14sp"
-                android:typeface="serif"
-                />
+                android:textStyle="bold"
+                android:typeface="serif" />
         </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contact_recyclerview2"
             android:layout_width="match_parent"
-            android:typeface="serif"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal">
-        </android.support.v7.widget.RecyclerView>
+            android:scrollbars="horizontal"
+            android:typeface="serif"></android.support.v7.widget.RecyclerView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginTop="10dp">
+            android:weightSum="3">
+
             <TextView
-                android:layout_marginTop="5dp"
-                android:text="CLOVER-PRODUCTS"
                 android:id="@+id/tv2"
-                android:layout_marginLeft="2dp"
                 android:layout_width="0dp"
-                android:layout_weight="2.4"
                 android:layout_height="match_parent"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:textSize="14sp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="2.4"
                 android:paddingLeft="5dp"
-                android:typeface="serif"
-                />
+                android:text="CLOVER-PRODUCTS"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
         </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contact_recyclerview3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:typeface="serif"
-            android:scrollbars="horizontal">
-        </android.support.v7.widget.RecyclerView>
+            android:scrollbars="horizontal"
+            android:typeface="serif"></android.support.v7.widget.RecyclerView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginTop="10dp">
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/tv3"
                 android:layout_width="0dp"
-                android:layout_marginLeft="2dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="2.4"
                 android:paddingLeft="5dp"
@@ -91,25 +106,28 @@
                 android:textStyle="bold"
                 android:typeface="serif" />
         </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contact_recyclerview4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:typeface="serif"
-            android:scrollbars="horizontal">
-        </android.support.v7.widget.RecyclerView>
+            android:scrollbars="horizontal"
+            android:typeface="serif"></android.support.v7.widget.RecyclerView>
+
         <ExpandableListView
             android:id="@+id/listmainexpand"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layoutDirection="rtl"
-            android:nestedScrollingEnabled="true">
-        </ExpandableListView>
+            android:nestedScrollingEnabled="true"></ExpandableListView>
 
 
     </LinearLayout>
+
 </ScrollView>
-    <!--   android:groupIndicator="@drawable/customindicator"-->
+    <!--
+    android:groupIndicator="@drawable/customindicator"
+    -->
 
 
 

@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "220239983330",
+    "firebase_url": "https://fir-authentication-aa143.firebaseio.com",
+    "project_id": "fir-authentication-aa143",
+    "storage_bucket": "fir-authentication-aa143.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220239983330:android:31cf9be9b8d6039b",
+        "android_client_info": {
+          "package_name": "com.example.developer.firebaseauthentication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220239983330-e75jjva74q7p19l8kie9dgclu60d8l4v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.developer.firebaseauthentication",
+            "certificate_hash": "bd44acdcd79f1e7d4b6aa98686e8972632fd5e02"
+          }
+        },
+        {
+          "client_id": "220239983330-s4k8db6igocpl8dna22ega9dtsj4onrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeD6nn9-709MRmWq2zKAt9GKVVtJl9ah0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220239983330-s4k8db6igocpl8dna22ega9dtsj4onrj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220239983330:android:2264f5401b57d357",
+        "android_client_info": {
+          "package_name": "com.example.lubna.cloverweb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220239983330-i75vhpogi9mmbp787jishiriccb10nh5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lubna.cloverweb",
+            "certificate_hash": "bd44acdcd79f1e7d4b6aa98686e8972632fd5e02"
+          }
+        },
+        {
+          "client_id": "220239983330-s4k8db6igocpl8dna22ega9dtsj4onrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeD6nn9-709MRmWq2zKAt9GKVVtJl9ah0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220239983330-s4k8db6igocpl8dna22ega9dtsj4onrj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

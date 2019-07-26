@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/cart_icon"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/glocery"
+        android:layout_gravity="center"
+        />
+
+    <item
+        android:id="@+id/cart_menu"
+        android:icon="@drawable/cart"
+        android:title="Cart"
+        app:showAsAction="always"
+        app:actionLayout="@layout/action_bar_notification_icon" />
+
+</menu>

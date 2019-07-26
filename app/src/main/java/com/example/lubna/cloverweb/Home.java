@@ -2,10 +2,11 @@ package com.example.lubna.cloverweb;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,9 +32,11 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 import android.widget.ViewFlipper;
 
 import com.android.volley.Request;
@@ -61,7 +64,6 @@ import dmax.dialog.SpotsDialog;
 
 public class Home extends Fragment {
 
-    ArrayList<String> sellstore;
     private String child_cat_id;
     Dialog MyDialog;
     SharedPreferences sp;
@@ -74,66 +76,70 @@ public class Home extends Fragment {
     String val;
     String value;
     String packid = "";
-    EditText addaddress;
-    Button submitbtn;
+
     //Expandable ListView
     private static final String URL_getAllCategories = "http://172.16.10.203/api/getAllCategories";
     private ExpandableListView expListView;
     private ExpandableListAdapter explistadapter;
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
-    EditText input, editText;
-    Button gelatln;
-    Button addressButton;
-    TextView addressTV;
-    TextView latLongTV;
+    EditText input;
     TextView tv1, tv2, tv3;
     ViewFlipper viewflip;
     View view;
-    CardView cardView;
     String lat, lng;
+
     //Non Clover Products
     private RecyclerView myrecyclerview2;
     private RecyclerView.Adapter adapter;
     private List<Model_NonCloverProducts> products;
+
     //Clover Products
     private RecyclerView myrecyclerview3;
     private RecyclerView.Adapter CloverAdapter;
     private List<Model_CloverProducts> CloverProducts;
+
     //Latest Products
     private RecyclerView myrecyclerview4;
     private RecyclerView.Adapter LatestAdapter;
     private List<Model_LatestProducts> LatestProducts;
-    private Button left, right;
+
     PlaceAutocompleteFragment places;
     private String StoreID;
     AlertDialog progressDialog;
+    VideoView videoView;
+    TextView tv_selected_store;
+    String selected_store;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home, container, false);
-
         progressDialog = new SpotsDialog(getContext(), R.style.Custom);
-
         progressDialog.show();
+        videoView = view.findViewById(R.id.videoview);
+
+        tv_selected_store = view.findViewById(R.id.tv_selected_store);
+
+
         progressDialog.setCancelable(false);
         sp = getActivity().getSharedPreferences("MyPre", Context.MODE_PRIVATE);
         SharedPreferences pref = getActivity().getSharedPreferences("MyPre", Context.MODE_PRIVATE);
         location = pref.getBoolean("location", false);
-
-        if (!location.equals(true))
-        {
+        if (!location.equals(true)) {
             MyCustomAlertDialog();
         }
+        if (selected_store == null) {
+            String store = sp.getString("Store", "");
+            tv_selected_store.setText("You're in " + store);
+        }
+
         //Non Clover Products
         myrecyclerview2 = view.findViewById(R.id.contact_recyclerview2);
-        myrecyclerview2.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
+        myrecyclerview2.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         products = new ArrayList<>();
         if (location.equals(true))
             FetchNonCloverProducts();
-
         //Clover Products
         myrecyclerview3 = view.findViewById(R.id.contact_recyclerview3);
         myrecyclerview3.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -141,7 +147,6 @@ public class Home extends Fragment {
         CloverProducts = new ArrayList<>();
         if (location.equals(true))
             FetchCloverProducts();
-
         //Latest Products
         myrecyclerview4 = view.findViewById(R.id.contact_recyclerview4);
         myrecyclerview4.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -149,18 +154,13 @@ public class Home extends Fragment {
         LatestProducts = new ArrayList<>();
         if (location.equals(true))
             FetchLatestProducts();
-
         //spinner.setVisibility(View.GONE);
         stores = new ArrayList<>();
         storesid = new ArrayList<>();
-
         /* map is already there, just return view as it is */
-
         tv1 = view.findViewById(R.id.tv1);
         tv2 = view.findViewById(R.id.tv2);
         tv3 = view.findViewById(R.id.tv3);
-
-
         SpannableString content = new SpannableString(getResources().getString(R.string.prod));
         content.setSpan(new UnderlineSpan(), 0, content.length() - 9, 0);
         tv1.setText(content);
@@ -170,10 +170,9 @@ public class Home extends Fragment {
 //        SpannableString content3 = new SpannableString(getResources().getString(R.string.prod2));
 //        content3.setSpan(new UnderlineSpan(), 0, content3.length() - 9, 0);
 //        tv3.setText(content3);
-
         //Expandable ListView
         expListView = view.findViewById(R.id.listmainexpand);
-        new DownloadJason().execute();
+        new com.example.lubna.cloverweb.Home.DownloadJason().execute();
        /* expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -742,18 +741,27 @@ public class Home extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        viewflip = view.findViewById(R.id.viewflip);
-        int images[] = {R.drawable.cloverpic1, R.drawable.cloverpic2, R.drawable.cloverpic3,
-                R.drawable.cloverpic4, R.drawable.cloverpic5, R.drawable.cloverpic6,
-                R.drawable.cloverpic7, R.drawable.cloverpic8, R.drawable.cloverpic9,
-                R.drawable.cloverpic10};
-        for (int image : images) {
-            flipimage(image);
-        }
+        String path = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.clovervid;
+        videoView.setVideoURI(Uri.parse(path));
+        videoView.start();
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+                mp.setVolume(0, 0);
+            }
+        });
+//       viewflip = view.findViewById(R.id.viewflip);
+//      int images[] = {R.drawable.cloverpic1, R.drawable.cloverpic2, R.drawable.cloverpic3,
+//               R.drawable.cloverpic4, R.drawable.cloverpic5, R.drawable.cloverpic6,
+//               R.drawable.cloverpic7, R.drawable.cloverpic8, R.drawable.cloverpic9,
+//               R.drawable.cloverpic10};
+//       for (int image : images) {
+//            flipimage(image);
+//        }
     }
 
-    public void flipimage(int image) {
+    /*public void flipimage(int image) {
         ImageView imageView = new ImageView(getContext());
         imageView.setBackgroundResource(image);
         viewflip.addView(imageView);
@@ -761,13 +769,12 @@ public class Home extends Fragment {
         viewflip.setAutoStart(true);
         viewflip.setInAnimation(getContext(), android.R.anim.slide_in_left);
         viewflip.setOutAnimation(getContext(), android.R.anim.slide_out_right);
-    }
+    }*/
 
     public void FetchNonCloverProducts() {
         final String URL;
         SharedPreferences pref = getActivity().getSharedPreferences("MyPre", Context.MODE_PRIVATE);
         StoreID = pref.getString("StoreID", "");
-
         if (StoreID.length() == 0) {
             URL = "http://172.16.10.203/api/getAllProducts/" + packid;
         } else {
@@ -1018,6 +1025,7 @@ public class Home extends Fragment {
                                 /*String selstore = "Select Store";
                                 stores.add(selstore);*/
                                 stores.add("Select Store");
+                                storesid.add("0");
                                 JSONArray jsonArray = new JSONArray(response);
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
@@ -1048,9 +1056,13 @@ public class Home extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                     val = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString();
+                    String[] arr = val.split(" ");
+                    selected_store = arr[0] + " Store";
+                    tv_selected_store.setText("You're in " + selected_store);
                     packid = storesid.get(position);
                     edit = sp.edit();
                     edit.putString("StoreID", packid);
+                    edit.putString("Store", selected_store);
                     edit.commit();
                     edit.apply();
                 }
@@ -1073,34 +1085,28 @@ public class Home extends Fragment {
         MyDialog.setCancelable(false);
         spinner = MyDialog.findViewById(R.id.orderspinner);
         submitstore = MyDialog.findViewById(R.id.buttonaddress);
-        submitstore.setOnClickListener(new View.OnClickListener()
-        {
+        submitstore.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (spinner.getSelectedItemPosition() == 0)
-                {
+            public void onClick(View v) {
+                if (spinner.getSelectedItemPosition() == 0) {
                     Toast.makeText(getContext(), "Please Select Store!", Toast.LENGTH_LONG).show();
+                } else {
+                    FetchNonCloverProducts();
+                    FetchLatestProducts();
+                    FetchCloverProducts();
+                    MyDialog.dismiss();
                 }
-                else
-                    {
-                        FetchNonCloverProducts();
-                        FetchLatestProducts();
-                        FetchCloverProducts();
-                        MyDialog.dismiss();
-                    } }
+            }
         });
         places = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        places.setOnPlaceSelectedListener(new PlaceSelectionListener()
-        {
+        places.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(Place place)
-            {
+            public void onPlaceSelected(Place place) {
                 String placeName = (String) place.getAddress();
                 //Toast.makeText(getContext(),placeName,Toast.LENGTH_LONG).show();
                 GeocodingLocation locationAddress = new GeocodingLocation();
                 locationAddress.getAddressFromLocation(placeName,
-                        getContext(), new Home.GeocoderHandler());
+                        getContext(), new com.example.lubna.cloverweb.Home.GeocoderHandler());
                 spinner.setVisibility(View.VISIBLE);
                 edit = sp.edit();
                 edit.putBoolean("location", true);
@@ -1109,9 +1115,9 @@ public class Home extends Fragment {
                 //location = true;
                 stores.clear();
             }
+
             @Override
-            public void onError(Status status)
-            {
+            public void onError(Status status) {
                 Toast.makeText(getContext(), status.toString(), Toast.LENGTH_SHORT).show();
             }
         });
